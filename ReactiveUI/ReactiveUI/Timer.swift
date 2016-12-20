@@ -10,36 +10,39 @@ import UIKit
 
 public extension Timer {
     // Big thanks to https://github.com/ashfurrow/Haste
-    class func scheduledTimer(timeInterval: TimeInterval, repeats: Bool, action: @escaping () -> ()) -> Timer {
-        return scheduledTimer(timeInterval: timeInterval, target: self, selector: "_timerDidFire:", userInfo: TimerProxyTarget(action: action), repeats: repeats)
+    class func scheduledTimerWithTimeInterval(seconds: TimeInterval, action: @escaping (Timer) -> (), repeats: Bool) -> Timer {
+        return scheduledTimer(timeInterval: seconds, target: self, selector: "_timerDidFire:", userInfo: RUITimerProxyTarget(action: action), repeats: repeats)
     }
 }
 
 internal extension Timer {
+    
     class func _timerDidFire(timer: Timer) {
-        if let proxyTarget = timer.userInfo as? TimerProxyTarget {
+        if let proxyTarget = timer.userInfo as? RUITimerProxyTarget {
             proxyTarget.performAction(timer)
         }
     }
+    
+    typealias RUITimerProxyTargets = [String: RUITimerProxyTarget]
+    
+    class RUITimerProxyTarget : RUIProxyTarget {
+        var action: (Timer) -> ()
 
-    class TimerProxyTarget : ProxyTarget {
-        var action: () -> ()
-
-        init(action: @escaping () -> ()) {
+        init(action: @escaping (Timer) -> ()) {
             self.action = action
         }
 
         func performAction(_ control: Timer) {
-            action()
+            action(control)
         }
     }
     
-    var proxyTarget: TimerProxyTarget {
+    var proxyTarget: RUITimerProxyTarget {
         get {
-            if let targets = objc_getAssociatedObject(self, &ProxyTargetsKey) as? TimerProxyTarget {
+            if let targets = objc_getAssociatedObject(self, &RUIProxyTargetsKey) as? RUITimerProxyTarget {
                 return targets
             } else {
-                return setProxyTargets(TimerProxyTarget(action: {_ in}))
+                return setProxyTargets(RUITimerProxyTarget(action: {_ in}))
             }
         }
         set {
@@ -47,8 +50,9 @@ internal extension Timer {
         }
     }
     
-    private func setProxyTargets(_ newValue: TimerProxyTarget) -> TimerProxyTarget {
-        objc_setAssociatedObject(self, &ProxyTargetsKey, newValue, .OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+    private func setProxyTargets(_ newValue: RUITimerProxyTarget) -> RUITimerProxyTarget {
+        objc_setAssociatedObject(self, &RUIProxyTargetsKey, newValue, .OBJC_ASSOCIATION_RETAIN_NONATOMIC);
         return newValue
     }
+    
 }

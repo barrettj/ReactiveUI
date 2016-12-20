@@ -8,9 +8,9 @@
 
 import UIKit
 
-internal var ProxyTargetsKey = "calm.ReactiveUI.ProxyTargetsKey"
+internal var RUIProxyTargetsKey = "s"
 
-internal class ProxyTarget : NSObject {
+internal class RUIProxyTarget : NSObject {
     class func actionSelector() -> Selector {
         return Selector("performAction:")
     }
