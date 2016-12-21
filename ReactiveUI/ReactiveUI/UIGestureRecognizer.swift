@@ -42,6 +42,10 @@ internal extension UIGestureRecognizer {
         func performAction(_ control: UIGestureRecognizer) {
             action(control)
         }
+        
+        override class func actionSelector() -> Selector {
+            return #selector(RUIGestureRecognizerProxyTarget.performAction)
+        }
     }
     
     var proxyTarget: RUIGestureRecognizerProxyTarget {

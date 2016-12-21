@@ -59,6 +59,10 @@ internal extension UIBarButtonItem {
         func performAction(control: UIBarButtonItem) {
             action(control)
         }
+        
+        override class func actionSelector() -> Selector {
+            return #selector(RUIBarButtonItemProxyTarget.performAction)
+        }
     }
     
     var proxyTarget: RUIBarButtonItemProxyTarget {

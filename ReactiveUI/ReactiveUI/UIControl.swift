@@ -63,6 +63,10 @@ internal extension UIControl {
         func performAction(_ control: UIControl) {
             action(control)
         }
+        
+        override class func actionSelector() -> Selector {
+            return #selector(RUIControlProxyTarget.performAction)
+        }
     }
     
     func keyForEvents(_ events: UIControlEvents) -> String {
