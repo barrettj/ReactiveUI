@@ -56,7 +56,7 @@ internal extension UIBarButtonItem {
             self.action = action
         }
 
-        func performAction(control: UIBarButtonItem) {
+        @objc func performAction(control: UIBarButtonItem) {
             action(control)
         }
         

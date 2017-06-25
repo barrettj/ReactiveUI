@@ -39,7 +39,7 @@ internal extension UIGestureRecognizer {
             self.action = action
         }
         
-        func performAction(_ control: UIGestureRecognizer) {
+        @objc func performAction(_ control: UIGestureRecognizer) {
             action(control)
         }
         

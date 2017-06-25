@@ -60,7 +60,7 @@ internal extension UIControl {
             self.action = action
         }
         
-        func performAction(_ control: UIControl) {
+        @objc func performAction(_ control: UIControl) {
             action(control)
         }
         
