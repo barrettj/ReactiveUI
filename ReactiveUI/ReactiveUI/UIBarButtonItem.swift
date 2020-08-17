@@ -10,22 +10,22 @@ import UIKit
 
 public extension UIBarButtonItem {
     
-    convenience init(barButtonSystemItem systemItem: UIBarButtonSystemItem, action: @escaping (UIBarButtonItem) -> ()) {
+    convenience init(barButtonSystemItem systemItem: UIBarButtonItem.SystemItem, action: @escaping (UIBarButtonItem) -> ()) {
         self.init(barButtonSystemItem: systemItem, target: nil, action: nil)
         addAction(action)
     }
     
-    convenience init(title: String?, style: UIBarButtonItemStyle, action: @escaping (UIBarButtonItem) -> ()) {
+    convenience init(title: String?, style: UIBarButtonItem.Style, action: @escaping (UIBarButtonItem) -> ()) {
         self.init(title: title, style: style, target: nil, action: nil)
         addAction(action)
     }
     
-    convenience init(image: UIImage?, style: UIBarButtonItemStyle, action: @escaping (UIBarButtonItem) -> ()) {
+    convenience init(image: UIImage?, style: UIBarButtonItem.Style, action: @escaping (UIBarButtonItem) -> ()) {
         self.init(image: image, style: style, target: nil, action: nil)
         addAction(action)
     }
     
-    convenience init(image: UIImage?, landscapeImagePhone: UIImage?, style: UIBarButtonItemStyle, action: @escaping (UIBarButtonItem) -> ()) {
+    convenience init(image: UIImage?, landscapeImagePhone: UIImage?, style: UIBarButtonItem.Style, action: @escaping (UIBarButtonItem) -> ()) {
         self.init(image: image, landscapeImagePhone: landscapeImagePhone, style: style, target: nil, action: nil)
         addAction(action)
     }

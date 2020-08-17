@@ -10,17 +10,17 @@ import UIKit
 
 public extension UIControl {
     
-    convenience init(action: @escaping (UIControl) -> (), forControlEvents events: UIControlEvents) {
+    convenience init(action: @escaping (UIControl) -> (), forControlEvents events: UIControl.Event) {
         self.init()
         addAction(action, forControlEvents: events)
     }
     
-    convenience init(forControlEvents events: UIControlEvents, action: @escaping (UIControl) -> ()) {
+    convenience init(forControlEvents events: UIControl.Event, action: @escaping (UIControl) -> ()) {
         self.init()
         addAction(action, forControlEvents: events)
     }
     
-    func addAction(_ action: @escaping (UIControl) -> (), forControlEvents events: UIControlEvents) {
+    func addAction(_ action: @escaping (UIControl) -> (), forControlEvents events: UIControl.Event) {
         removeAction(forControlEvents: events)
 
         let proxyTarget = RUIControlProxyTarget(action: action)
@@ -28,18 +28,18 @@ public extension UIControl {
         addTarget(proxyTarget, action: RUIControlProxyTarget.actionSelector(), for: events)
     }
 
-    func forControlEvents(events: UIControlEvents, addAction action: @escaping (UIControl) -> ()) {
+    func forControlEvents(events: UIControl.Event, addAction action: @escaping (UIControl) -> ()) {
         addAction(action, forControlEvents: events)
     }
     
-    func removeAction(forControlEvents events: UIControlEvents) {
+    func removeAction(forControlEvents events: UIControl.Event) {
         if let proxyTarget = proxyTargets[keyForEvents(events)] {
             removeTarget(proxyTarget, action: RUIControlProxyTarget.actionSelector(), for: events)
             proxyTargets.removeValue(forKey: keyForEvents(events))
         }
     }
     
-    func actionForControlEvent(events: UIControlEvents) -> ((UIControl) -> ())? {
+    func actionForControlEvent(events: UIControl.Event) -> ((UIControl) -> ())? {
         return proxyTargets[keyForEvents(events)]?.action
     }
     
@@ -69,7 +69,7 @@ internal extension UIControl {
         }
     }
     
-    func keyForEvents(_ events: UIControlEvents) -> String {
+    func keyForEvents(_ events: UIControl.Event) -> String {
         return "UIControlEvents: \(events.rawValue)"
     }
 
